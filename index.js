@@ -164,7 +164,7 @@ let upload=multer({dest:"upload/"});
              if(err) throw err;
              //7.4.3 如果执行成功返回上传成功消息
              //7.5 返回消息上传文件成功 
-             res.send(`<script>(function(){location.href='www.bitoc.com/Myhome'})()</script>`);
+             res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/Myhome'})()</script>`);
          })
      }else{
         let sql="UPDATE deallist SET dealurl=? WHERE did=?"
@@ -173,7 +173,7 @@ let upload=multer({dest:"upload/"});
             if(err) throw err;
             //7.4.3 如果执行成功返回上传成功消息
             //7.5 返回消息上传文件成功 
-            res.send(`<script>(function(){location.href='www.bitoc.com/Deal'})()</script>`);
+            res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/Deal'})()</script>`);
         })
      }
      
@@ -753,7 +753,7 @@ server.post('/GetTeamCount',(req,res)=>{
  })
 
 //当前交易价格
-let pic=8.2;
+let pic=3.2;
 setInterval(()=>{
     pic+=0.32; 
 },1000*60*60*24)
