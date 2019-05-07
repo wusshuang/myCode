@@ -40,7 +40,6 @@ const bodyParser=require("body-parser");
 //配置json是否是自动转换
 server.use(bodyParser.urlencoded({extended:false}))
 
-
 //功能一：用户登录
 server.post("/Login",(req,res)=>{
     let phone=req.body.phone;
@@ -49,15 +48,15 @@ server.post("/Login",(req,res)=>{
     pool.query(sql,[phone,logupwd],(err,result)=>{
         if(err) throw err;
         if(result.length>0){
-            var uid=result[0].uid;
+            let uid=result[0].uid;
             req.session.uid=uid;
-            var phone=result[0].phone;
+            let phone=result[0].phone;
             req.session.phone=phone;
-            var uname=result[0].uname;
+            let uname=result[0].uname;
             req.session.uname=uname;
-            var pay=result[0].pay;
+            let pay=result[0].pay;
             req.session.pay=pay;
-            var deposit=result[0].deposit;
+            let deposit=result[0].deposit;
             req.session.deposit=deposit;
             //console.log(req.session.uid);
             res.send({code:1,data:result});
@@ -105,7 +104,7 @@ server.get("/Self",(req,res)=>{
     if(req.query.uid){
         uid=req.query.uid
     }else{
-        uid=req.session.uid
+        uid=1
     }
     let sql=`SELECT uid,phone,uname,rank,pay,boss,rtime,rincome,deposit,cardurl,freeze From bocUser WHERE uid=?`;
     pool.query(sql,[uid],(err,result)=>{
@@ -120,7 +119,7 @@ server.get("/Self",(req,res)=>{
 
 //功能五，交易密码查询
 server.post('/Dupwd',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let dealupwd=req.body.dealupwd;
     let sql='SELECT uid FROM bocUser WHERE uid=? AND dealupwd=md5(?)';
     pool.query(sql,[uid,dealupwd],(err,result)=>{
@@ -156,7 +155,7 @@ let upload=multer({dest:"upload/"});
      fs.renameSync(req.file.path,newFile);
 
      //返回添加成功
-     let uid=req.session.uid;
+     let uid=1;
      if(did==0){
          let sql="UPDATE bocUser SET cardurl=? WHERE uid=?"
          //7.4.2 发送SQL语句
@@ -182,11 +181,11 @@ let upload=multer({dest:"upload/"});
  //功能七：申请交易订单
  server.post('/Applydeal',(req,res)=>{
      // 订单编号 用户编号 编号 电话 姓名 支付宝 数量 单价 总价 支付路径 时间 状态 匹配时间
-     let uid=req.session.uid;
+     let uid=1;
      let number=parseInt(Math.random()*100000);
-     let phone=req.session.phone;
-     let uname=req.session.uname;
-     let pay=parseInt(req.session.pay);
+     let phone=15036368031;
+     let uname='薛小飞';
+     let pay=parseInt(15036368031);
      let count=req.body.count;
      let price=req.body.price;
      let totle=req.body.totle;
@@ -231,7 +230,7 @@ let upload=multer({dest:"upload/"});
 
 //功能九：获取我的团队信息
 server.get('/GetTeam',(req,res)=>{
-    let phone=req.session.phone;
+    let phone=15036368031;
     let sql='SELECT uname,phone,rank,state,rtime,tteam FROM bocUser WHERE boss=? ORDER BY uid DESC';
     pool.query(sql,[phone],(err,result)=>{
         if(err) throw err;
@@ -241,7 +240,7 @@ server.get('/GetTeam',(req,res)=>{
 
 //功能十：获取个人订单列表
 server.get('/Getdeal',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let pno=20*req.query.pno;
     let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE uid=? ORDER BY did DESC LIMIT ${pno},20`;
     pool.query(sql,[uid],(err,result)=>{
@@ -252,7 +251,7 @@ server.get('/Getdeal',(req,res)=>{
 
 //功能十一：获取个人在交易列表
 server.get('/Getdealing',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE (state LIKE ?OR state LIKE ?) AND (otheruid=? OR uid=?)`;
     pool.query(sql,['%匹配%','%违规%',uid,uid],(err,result)=>{
         if(err) throw err;
@@ -341,7 +340,7 @@ server.post('/Succeed',(req,res)=>{
 //功能十七：订单匹配成功
 server.post('/GetOrderInfo',(req,res)=>{
     let did=req.body.did;
-    let uid=req.session.uid;
+    let uid=1;
     let otheruid=req.body.otheruid;
     let count=req.body.count;
     let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE did=?`;
@@ -480,7 +479,7 @@ server.post('/dealError',(req,res)=>{
 
 //功能二十：用户矿机信息获取
 server.get('/Mlist',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let sql=`SELECT mid,type,output,state,mtime,yetget FROM milllist WHERE uid=?`;
     pool.query(sql,[uid],(err,result)=>{
         if(err) throw err;
@@ -502,7 +501,7 @@ server.get('/Upstate',(req,res)=>{
 server.get('/Upyetget',(req,res)=>{
     let get=Number(req.query.get);
     let mid=req.query.mid;
-    let uid=req.session.uid;
+    let uid=1;
     let sql=`UPDATE milllist SET yetget=yetget+? WHERE mid=?`;
     pool.query(sql,[get,mid],(err,result)=>{
         if(err) throw err;
@@ -529,7 +528,7 @@ server.get('/Upyetget',(req,res)=>{
 
 //功能二十三：首页矿机租用
 server.post('/Rent',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let pic=Number(req.body.pic);
     let type;
     switch(pic){
@@ -565,7 +564,7 @@ server.post('/Rent',(req,res)=>{
 
 //功能二十四：修改用户等级
 server.get('/UpdateRank',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let rank=req.query.rank;
     let sql=`UPDATE bocUser SET rank=? WHERE uid=?`;
     pool.query(sql,[rank,uid],(err,result)=>{
@@ -586,7 +585,7 @@ server.get('/GetMillInfo',(req,res)=>{
 
 //功能二十六：获取个人财务明细列表
 server.get('/Getproperty',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let sql=`SELECT pid,type,count,ptime,depo FROM property WHERE uid=? ORDER BY pid DESC`;
     pool.query(sql,[uid],(err,result)=>{
         if(err) throw err;
@@ -596,7 +595,7 @@ server.get('/Getproperty',(req,res)=>{
 
 //功能二十七：修改我的团队人数
 server.post('/GetTeamCount',(req,res)=>{
-    let uid=req.session.uid;
+    let uid=1;
     let t=req.body.tteam;
     let sql=`UPDATE bocUser SET tteam=? WHERE uid=?`;
     pool.query(sql,[t,uid],(err,result)=>{
