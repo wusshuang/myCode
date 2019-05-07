@@ -242,7 +242,7 @@ server.get('/GetTeam',(req,res)=>{
 //功能十：获取个人订单列表
 server.get('/Getdeal',(req,res)=>{
     let uid=req.session.uid;
-    let pno=20*req.query.pno;
+    let pno=req.query.pno;
     let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE uid=? ORDER BY did DESC LIMIT ${pno},20`;
     pool.query(sql,[uid],(err,result)=>{
         if(err) throw err;
