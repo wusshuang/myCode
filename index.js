@@ -484,7 +484,11 @@ server.get('/Mlist',(req,res)=>{
     let sql=`SELECT mid,type,output,mtime,state,yetget FROM millList WHERE uid=?`;
     pool.query(sql,[uid],(err,result)=>{
         if(err) throw err;
-        res.send(result)
+        if(result.length>0){
+            res.send(result)
+        }else{
+            res.send({code:-1,msg:'没有！'})
+        }
     })
 })
 
