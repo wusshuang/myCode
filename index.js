@@ -243,8 +243,8 @@ server.get('/GetTeam',(req,res)=>{
 server.get('/Getdeal',(req,res)=>{
     let uid=req.session.uid;
     let pno=req.query.pno;
-    let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE uid=? ORDER BY did DESC LIMIT ${pno},20`;
-    pool.query(sql,[uid],(err,result)=>{
+    let sql='SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE uid=? ORDER BY did DESC LIMIT ?,20';
+    pool.query(sql,[pno,uid],(err,result)=>{
         if(err) throw err;
         res.send(result)
     })
@@ -254,7 +254,7 @@ server.get('/Getdeal',(req,res)=>{
 server.get('/Getdealing',(req,res)=>{
     let uid=req.session.uid;
     let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE (state LIKE ?OR state LIKE ?) AND (otheruid=? OR uid=?)`;
-    pool.query(sql,['%匹配%','%违规%',uid,uid],(err,result)=>{
+    pool.query(sql,['%匹配%','%异常%',uid,uid],(err,result)=>{
         if(err) throw err;
         res.send(result)
     })
