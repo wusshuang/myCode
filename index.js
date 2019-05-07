@@ -164,7 +164,7 @@ let upload=multer({dest:"upload/"});
              if(err) throw err;
              //7.4.3 如果执行成功返回上传成功消息
              //7.5 返回消息上传文件成功 
-             res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/Myhome'})()</script>`);
+             res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/#/Myhome'})()</script>`);
          })
      }else{
         let sql="UPDATE deallist SET dealurl=? WHERE did=?"
@@ -173,7 +173,7 @@ let upload=multer({dest:"upload/"});
             if(err) throw err;
             //7.4.3 如果执行成功返回上传成功消息
             //7.5 返回消息上传文件成功 
-            res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/Deal'})()</script>`);
+            res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/#/Deal'})()</script>`);
         })
      }
      
@@ -253,7 +253,7 @@ server.get('/Getdeal',(req,res)=>{
 //功能十一：获取个人在交易列表
 server.get('/Getdealing',(req,res)=>{
     let uid=req.session.uid;
-    let sql=`SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE (state LIKE ?OR state LIKE ?) AND (otheruid=? OR uid=?)`;
+    let sql=`SELECT did,number,price,count,totle,rtime,matching,state FROM deallist WHERE (state LIKE ?OR state LIKE ?) AND (otheruid=? OR uid=?)`;
     pool.query(sql,['%匹配%','%异常%',uid,uid],(err,result)=>{
         if(err) throw err;
         res.send(result)
