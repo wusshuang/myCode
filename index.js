@@ -639,7 +639,7 @@ server.post('/GetTeamCount',(req,res)=>{
      let pno=10*req.query.pno;
      let phone=req.query.phone;
 
-     let sql=`SELECT uid,phone,uname,pay,logupwd,rank,cardurl,rtime,state FROM bocUser WHERE phone Like ? LIMIT ${pno},10`;
+     let sql=`SELECT uid,phone,uname,pay,logupwd,rank,cardurl,rtime,state FROM bocUser WHERE phone Like ? ORDER BY uid DESC LIMIT ${pno},10`;
      pool.query(sql,['%'+phone+'%'],(err,result)=>{
         if(err) throw err;
         res.send(result)
