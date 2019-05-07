@@ -479,10 +479,10 @@ server.post('/dealError',(req,res)=>{
 })
 
 //功能二十：用户矿机信息获取
-server.get('/Mlist',(req,res)=>{
+server.get("/Mlist",(req,res)=>{
     let uid=req.session.uid;
     let sql=`SELECT mid,type,output,mtime,state,yetget FROM millList WHERE uid=?`;
-    pool.query(sql,[1],(err,result)=>{
+    pool.query(sql,[uid],(err,result)=>{
         if(err) throw err;
         if(result.length>0){
             res.send(result)
