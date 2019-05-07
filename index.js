@@ -242,7 +242,7 @@ server.get('/GetTeam',(req,res)=>{
 //功能十：获取个人订单列表
 server.get('/Getdeal',(req,res)=>{
     let uid=req.session.uid;
-    let pno=req.query.pno;
+    let pno=20*req.query.pno;
     let sql='SELECT did,number,price,count,totle,rtime,state FROM deallist WHERE uid=? ORDER BY did DESC LIMIT ?,20';
     pool.query(sql,[pno,uid],(err,result)=>{
         if(err) throw err;
@@ -636,7 +636,7 @@ server.post('/GetTeamCount',(req,res)=>{
 
  //2 电话号码模糊查询或uid
  server.get("/Toget",(req,res)=>{
-     let pno=req.query.pno;
+     let pno=10*req.query.pno;
      let phone=req.query.phone;
 
      let sql=`SELECT uid,phone,uname,pay,logupwd,rank,cardurl,rtime,state FROM bocUser WHERE phone Like ? LIMIT ${pno},10`;
