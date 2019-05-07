@@ -164,7 +164,7 @@ let upload=multer({dest:"upload/"});
              if(err) throw err;
              //7.4.3 如果执行成功返回上传成功消息
              //7.5 返回消息上传文件成功 
-             res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/#/Myhome'})()</script>`);
+             res.send({code:1,msg:"上传成功！"});
          })
      }else{
         let sql="UPDATE deals SET dealurl=? WHERE did=?"
@@ -173,7 +173,7 @@ let upload=multer({dest:"upload/"});
             if(err) throw err;
             //7.4.3 如果执行成功返回上传成功消息
             //7.5 返回消息上传文件成功 
-            res.send(`<script>(function(){location.href='http://bitoc..applinzi.com/#/Deal'})()</script>`);
+            res.send({code:1,msg:"上传成功！"});
         })
      }
      
