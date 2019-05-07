@@ -156,29 +156,29 @@ let upload=multer({dest:"upload/"});
      //移动 public/upload/23234.jpg
      fs.renameSync(req.file.path,newFile);
 
-     res.send({code:newFile,msg:des})
+    //  res.send({code:newFile,msg:des})
 
      //返回添加成功
-    //  let uid=req.session.uid;
-    //  if(did==0){
-    //      let sql="UPDATE bocUser SET cardurl=? WHERE uid=?"
-    //      //7.4.2 发送SQL语句
-    //      pool.query(sql,[des,uid],(err,result)=>{
-    //          if(err) throw err;
-    //          //7.4.3 如果执行成功返回上传成功消息
-    //          //7.5 返回消息上传文件成功 
-    //          res.send({code:1,msg:"上传成功！"});
-    //      })
-    //  }else{
-    //     let sql="UPDATE deals SET dealurl=? WHERE did=?"
-    //     //7.4.2 发送SQL语句
-    //     pool.query(sql,[des,did],(err,result)=>{
-    //         if(err) throw err;
-    //         //7.4.3 如果执行成功返回上传成功消息
-    //         //7.5 返回消息上传文件成功 
-    //         res.send({code:1,msg:"上传成功！"});
-    //     })
-    //  }
+     let uid=req.session.uid;
+     if(did==0){
+         let sql="UPDATE bocUser SET cardurl=? WHERE uid=?"
+         //7.4.2 发送SQL语句
+         pool.query(sql,[des,uid],(err,result)=>{
+             if(err) throw err;
+             //7.4.3 如果执行成功返回上传成功消息
+             //7.5 返回消息上传文件成功 
+             res.send({code:1,msg:"上传成功！"});
+         })
+     }else{
+        let sql="UPDATE deals SET dealurl=? WHERE did=?"
+        //7.4.2 发送SQL语句
+        pool.query(sql,[des,did],(err,result)=>{
+            if(err) throw err;
+            //7.4.3 如果执行成功返回上传成功消息
+            //7.5 返回消息上传文件成功 
+            res.send({code:1,msg:"上传成功！"});
+        })
+     }
      
  });
 
