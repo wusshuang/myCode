@@ -281,38 +281,47 @@ server.get('/Getdealing',(req,res)=>{
 //功能十二：用户删除交易订单
 server.post('/Deletedeallist',(req,res)=>{
     let did=req.body.did;
-    let sql1='SELECT uid,count,state FROM deals WHERE did=?';
-    pool.query(sql1,[did],(err,result)=>{
-        if(err) throw err;
-        let uid=result[0].uid;
-        let count=parseFloat(result[0].count);
-        if(result[0].state=="待卖出"){
-            let sql2='UPDATE bocUser SET deposit=deposit+?,freeze=freeze-? WHERE uid=?';
-            pool.query(sql2,[count*1.15,count*1.15,result[0].uid],(err,result)=>{
-                if(err) throw err;
-                let sql6='SELECT deposit FROM bocUser WHERE uid=?';
-                pool.query(sql6,[uid],(err,result)=>{
+    if(req.body.n==3){
+        let sql9=`DELETE FROM deals WHERE did=?`;
+        pool.query(sql9,[did],(err,result)=>{
+            if(err) throw err;
+            res.send({code:1,msg:'删除成功！'})
+        })
+    }else{
+        let sql1='SELECT uid,count,state FROM deals WHERE did=?';
+        
+        pool.query(sql1,[did],(err,result)=>{
+            if(err) throw err;
+            let uid=result[0].uid;
+            let count=parseFloat(result[0].count);
+            if(result[0].state=="待卖出"){
+                let sql2='UPDATE bocUser SET deposit=deposit+?,freeze=freeze-? WHERE uid=?';
+                pool.query(sql2,[count*1.15,count*1.15,result[0].uid],(err,result)=>{
                     if(err) throw err;
-                    let depo=result[0].deposit;
-                    let sql2="INSERT INTO property VALUES(null,?,'撤销买单',+?,now(),?)";
-                    pool.query(sql2,[uid,count*1.15,depo],(err,result)=>{
+                    let sql6='SELECT deposit FROM bocUser WHERE uid=?';
+                    pool.query(sql6,[uid],(err,result)=>{
                         if(err) throw err;
-                        let sql3=`DELETE FROM deals WHERE did=?`;
-                        pool.query(sql3,[did],(err,result)=>{
+                        let depo=result[0].deposit;
+                        let sql2="INSERT INTO property VALUES(null,?,'撤销买单',+?,now(),?)";
+                        pool.query(sql2,[uid,count*1.15,depo],(err,result)=>{
                             if(err) throw err;
-                            res.send({code:1,msg:'删除成功！'})
+                            let sql3=`DELETE FROM deals WHERE did=?`;
+                            pool.query(sql3,[did],(err,result)=>{
+                                if(err) throw err;
+                                res.send({code:1,msg:'删除成功！'})
+                            })
                         })
                     })
                 })
-            })
-        }else{
-            let sql=`DELETE FROM deals WHERE did=?`;
-            pool.query(sql,[did],(err,result)=>{
-                if(err) throw err;
-                res.send({code:1,msg:'删除成功！'})
-            })
-        }
-    })
+            }else{
+                let sql=`DELETE FROM deals WHERE did=?`;
+                pool.query(sql,[did],(err,result)=>{
+                    if(err) throw err;
+                    res.send({code:1,msg:'删除成功！'})
+                })
+            }
+        })
+    }
 
 })
 
