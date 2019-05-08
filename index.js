@@ -138,7 +138,7 @@ server.post('/Dupwd',(req,res)=>{
 // const multer=require("multer");
 // const fs=require("fs");
 //创建multer模块对象 
-let upload=multer({dest:"myuploadimg/"});
+let upload=multer({dest:"bitoc.applinzi.com/myuploadimg/"});
  //接收post请求 /uploadFile
  server.post("/uploadFile",upload.single("mypic"),(req,res)=>{
      //创建新文件名
