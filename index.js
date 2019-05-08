@@ -261,12 +261,10 @@ server.get('/Getdeal',(req,res)=>{
     if(!pno){
         pno=0
     }
-    console.log(4444444)
     let sql='SELECT did,number,price,count,totle,rtime,state FROM deals WHERE uid=? ORDER BY did DESC LIMIT ?,20';
-    pool.query(sql,[pno,uid],(err,result)=>{
+    pool.query(sql,[uid,pno],(err,result)=>{
         if(err) throw err;
         res.send(result)
-        console.log(result)
     })
 })
 
@@ -433,8 +431,8 @@ server.post('/dealOver',(req,res)=>{
                     pool.query(sql2,[id1,count/1.15,depo],(err,result)=>{
                         if(err) throw err;
                         console.log(1111111)
-                        let sql4=`SELECT boss FROM bocuser WHERE uid=${id1}`;
-                        pool.query(sql4,(err,result)=>{
+                        let sql4='SELECT boss FROM bocUser WHERE uid=?';
+                        pool.query(sql4,[id1],(err,result)=>{
                             if(err) throw err;
                             console.log(result)
                             if(result.length>0){
