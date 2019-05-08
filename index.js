@@ -672,9 +672,11 @@ server.post('/GetTeamCount',(req,res)=>{
  server.get("/Toget",(req,res)=>{
      let phone=req.query.phone;
      let pno=10*req.query.pno;
+     console.log(666667)
      let sql=`SELECT uid,phone,uname,pay,logupwd,rank,cardurl,rtime,state FROM bocUser WHERE phone Like ? ORDER BY uid DESC LIMIT ${pno},10`;
      pool.query(sql,['%'+phone+'%'],(err,result)=>{
-        if(err) throw err;
+         if(err) throw err;
+         console.log(result)
         res.send(result)
      })
  })
