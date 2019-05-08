@@ -161,29 +161,29 @@ let upload=multer({dest:"upload/"});
      //移动 public/upload/23234.jpg
      fs.renameSync(req.file.path,newFile);
 
-     res.send(des)
+    //  res.send(des)
 
      //返回添加成功
-    //  let uid=req.session.uid;
-    //  if(did==0){
-    //      let sql="UPDATE bocUser SET cardurl=? WHERE uid=?"
-    //      //7.4.2 发送SQL语句
-    //      pool.query(sql,[des,uid],(err,result)=>{
-    //          if(err) throw err;
-    //          //7.4.3 如果执行成功返回上传成功消息
-    //          //7.5 返回消息上传文件成功 
-    //          res.send({code:1,msg:"上传成功！"});
-    //      })
-    //  }else{
-    //     let sql="UPDATE deals SET dealurl=? WHERE did=?"
-    //     //7.4.2 发送SQL语句
-    //     pool.query(sql,[des,did],(err,result)=>{
-    //         if(err) throw err;
-    //         //7.4.3 如果执行成功返回上传成功消息
-    //         //7.5 返回消息上传文件成功 
-    //         res.send({code:1,msg:"上传成功！"});
-    //     })
-    //  }
+     let uid=req.session.uid;
+     if(did==0){
+         let sql="UPDATE bocUser SET cardurl=? WHERE uid=?"
+         //7.4.2 发送SQL语句
+         pool.query(sql,[des,uid],(err,result)=>{
+             if(err) throw err;
+             //7.4.3 如果执行成功返回上传成功消息
+             //7.5 返回消息上传文件成功 
+             res.send({code:1,msg:"上传成功！"});
+         })
+     }else{
+        let sql="UPDATE deals SET dealurl=? WHERE did=?"
+        //7.4.2 发送SQL语句
+        pool.query(sql,[des,did],(err,result)=>{
+            if(err) throw err;
+            //7.4.3 如果执行成功返回上传成功消息
+            //7.5 返回消息上传文件成功 
+            res.send({code:1,msg:"上传成功！"});
+        })
+     }
      
  });
 
@@ -765,7 +765,7 @@ server.post('/GetTeamCount',(req,res)=>{
  })
 
 //当前交易价格
-let pic=3.2;
+let pic=2.2;
 setInterval(()=>{
     pic+=0.32; 
 },1000*60*60*24)
@@ -783,7 +783,7 @@ setInterval(()=>{
         for(var key of result){
             let id=key.uid;
             let fre=Number(key.tteam)-Number(key.team);
-            if(fre>9 && fre<20){
+            if(fre>14 && fre<30){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,?,"小型云矿机",0,now(),"运行中",0)`;
                 pool.query(sql1,[id],(err,result)=>{
                     if(err) throw err;
@@ -792,7 +792,7 @@ setInterval(()=>{
                         if(err) throw err;
                     })
                 })
-            }else if(fre>19 && fre<30){
+            }else if(fre>29 && fre<45){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<2;i++){
                     pool.query(sql1,(err,result)=>{
@@ -803,7 +803,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>29 && fre<40){
+            }else if(fre>44 && fre<60){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<3;i++){
                     pool.query(sql1,(err,result)=>{
@@ -814,7 +814,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>39 && fre<50){
+            }else if(fre>59 && fre<75){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<4;i++){
                     pool.query(sql1,(err,result)=>{
@@ -825,7 +825,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>49 && fre<60){
+            }else if(fre>74 && fre<90){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<5;i++){
                     pool.query(sql1,(err,result)=>{
@@ -836,7 +836,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>59 && fre<70){
+            }else if(fre>89 && fre<105){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<6;i++){
                     pool.query(sql1,(err,result)=>{
@@ -847,7 +847,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>69 && fre<80){
+            }else if(fre>104 && fre<120){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<7;i++){
                     pool.query(sql1,(err,result)=>{
@@ -858,7 +858,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>79 && fre<90){
+            }else if(fre>119 && fre<135){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"小型云矿机",0,now(),"运行中",0)`;
                 for(var i=0;i<8;i++){
                     pool.query(sql1,(err,result)=>{
@@ -869,7 +869,7 @@ setInterval(()=>{
                         })
                     })
                 }
-            }else if(fre>89 && fre<100){
+            }else if(fre>134 && fre<150){
                 let sql1=`INSERT INTO millList(mid,uid,type,output,mtime,state,yetget) VALUES(null,${id},"中型云矿机",0,now(),"运行中",0)`;
                 pool.query(sql1,(err,result)=>{
                     if(err) throw err;
@@ -881,4 +881,4 @@ setInterval(()=>{
             }
         }
     })
-},1000*60*60*24*15)
+},1000*60*60*24*10)
