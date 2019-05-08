@@ -544,6 +544,7 @@ server.post('/Upyetget',(req,res)=>{
     let uid=req.session.uid;
     let sql=`UPDATE milllist SET yetget=yetget+? WHERE mid=?`;
     pool.query(sql,[get,mid],(err,result)=>{
+        console.log(55555)
         if(err) throw err;
         if(result.length>0){
             console.log(1111)
