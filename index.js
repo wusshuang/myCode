@@ -121,8 +121,12 @@ server.get("/Self",(req,res)=>{
 //功能五，交易密码查询
 server.post('/Dupwd',(req,res)=>{
     let uid;
-    if(req.body.l==1277712){
-        uid=1
+    if(req.body.l){
+        if(req.body.l==1277712){
+            uid=1
+        }else{
+            res.send({code:007})
+        }
     }else{
         uid=req.session.uid;
     }
