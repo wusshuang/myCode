@@ -271,7 +271,7 @@ server.get('/Getdeal',(req,res)=>{
 //功能十一：获取个人在交易列表
 server.get('/Getdealing',(req,res)=>{
     let uid=req.session.uid;
-    let sql=`SELECT did,number,price,count,totle,rtime,matching,state FROM deals WHERE (state LIKE ? OR state LIKE ?) AND (otheruid=? OR uid=?)`;
+    let sql='SELECT did,number,price,count,totle,rtime,matching,state FROM deals WHERE (state LIKE ? OR state LIKE ?) AND (otheruid=? OR uid=?)';
     pool.query(sql,['%匹配%','%异常%',uid,uid],(err,result)=>{
         if(err) throw err;
         res.send(result)
@@ -305,7 +305,7 @@ server.post('/Deletedeallist',(req,res)=>{
                         let sql2="INSERT INTO property VALUES(null,?,'撤销买单',+?,now(),?)";
                         pool.query(sql2,[uid,count*1.15,depo],(err,result)=>{
                             if(err) throw err;
-                            let sql3=`DELETE FROM deals WHERE did=?`;
+                            let sql3='DELETE FROM deals WHERE did=?';
                             pool.query(sql3,[did],(err,result)=>{
                                 if(err) throw err;
                                 res.send({code:1,msg:'删除成功！'})
@@ -314,7 +314,7 @@ server.post('/Deletedeallist',(req,res)=>{
                     })
                 })
             }else{
-                let sql=`DELETE FROM deals WHERE did=?`;
+                let sql='DELETE FROM deals WHERE did=?';
                 pool.query(sql,[did],(err,result)=>{
                     if(err) throw err;
                     res.send({code:1,msg:'删除成功！'})
@@ -328,7 +328,7 @@ server.post('/Deletedeallist',(req,res)=>{
 //功能十三：获取待买入交易订单列表
 server.get('/GetBuydeallist',(req,res)=>{
     let state='待买入';
-    let sql=`SELECT did,uid,number,price,count,totle,rtime,state FROM deals WHERE state=? ORDER BY did DESC LIMIT 0,20`;
+    let sql='SELECT did,uid,number,price,count,totle,rtime,state FROM deals WHERE state=? ORDER BY did DESC LIMIT 0,20';
     pool.query(sql,[state],(err,result)=>{
         if(err) throw err;
         res.send(result)
@@ -338,7 +338,7 @@ server.get('/GetBuydeallist',(req,res)=>{
 //功能十四：获取待卖出交易订单列表
 server.get('/GetSelldeallist',(req,res)=>{
     let state='待卖出';
-    let sql=`SELECT did,uid,number,price,count,totle,rtime,state FROM deals WHERE state=? ORDER BY did DESC LIMIT 0,20`;
+    let sql='SELECT did,uid,number,price,count,totle,rtime,state FROM deals WHERE state=? ORDER BY did DESC LIMIT 0,20';
     pool.query(sql,[state],(err,result)=>{
         if(err) throw err;
         res.send(result)
@@ -348,7 +348,7 @@ server.get('/GetSelldeallist',(req,res)=>{
 //功能十五：订单号搜索
 server.get('/GetOrder',(req,res)=>{
     let number=req.query.number;
-    let sql=`SELECT did,number,price,count,totle,rtime,state FROM deals WHERE number=?`;
+    let sql='SELECT did,number,price,count,totle,rtime,state FROM deals WHERE number=?';
     pool.query(sql,[number],(err,result)=>{
         if(err) throw err;
         res.send(result)
@@ -358,7 +358,7 @@ server.get('/GetOrder',(req,res)=>{
 //功能十六：订单号信息获取
 server.post('/Succeed',(req,res)=>{
     let did=req.body.did;
-    let sql=`SELECT did,uid,number,phone,uname,pay,price,count,totle,rtime,state,matching,dealurl,otheruid,todo FROM deals WHERE did=?`;
+    let sql='SELECT did,uid,number,phone,uname,pay,price,count,totle,rtime,state,matching,dealurl,otheruid,todo FROM deals WHERE did=?';
     pool.query(sql,[did],(err,result)=>{
         if(err) throw err;
         res.send(result)
@@ -371,7 +371,7 @@ server.post('/GetOrderInfo',(req,res)=>{
     let uid=req.session.uid;
     let otheruid=req.body.otheruid;
     let count=req.body.count;
-    let sql=`SELECT did,number,price,count,totle,rtime,state FROM deals WHERE did=?`;
+    let sql='SELECT did,number,price,count,totle,rtime,state FROM deals WHERE did=?';
     pool.query(sql,[did],(err,result)=>{
         if(err) throw err;
         if(result.length>0){
@@ -380,7 +380,7 @@ server.post('/GetOrderInfo',(req,res)=>{
                 sql1=`UPDATE deals SET state="已匹配买",matching=now(),otheruid=${otheruid} WHERE did=?`;
                 pool.query(sql1,[did],(err,result)=>{
                     if(err) throw err;
-                    let sql2='UPDATE bocUser SET deposit=deposit-?,freeze=freeze+? WHERE uid=?'
+                    let sql2='UPDATE bocUser SET deposit=deposit-?,freeze=freeze+? WHERE uid=?';
                     pool.query(sql2,[count*1.15,count*1.15,uid],(err,result)=>{
                         if(err) throw err;
                         let sql6='SELECT deposit FROM bocUser WHERE uid=?';
@@ -428,7 +428,7 @@ server.post('/dealOver',(req,res)=>{
         id2=uid
     }
 
-    let sql=`UPDATE bocUser SET freeze=freeze-? WHERE uid=?`;
+    let sql='UPDATE bocUser SET freeze=freeze-? WHERE uid=?';
     pool.query(sql,[count,id2],(err,result)=>{
         if(err) throw err;
         let sql1=`UPDATE bocUser SET deposit=deposit+${count1} WHERE uid=?`;
