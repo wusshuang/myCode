@@ -170,7 +170,7 @@ let upload=multer({dest:"upload/"});
 
      //返回添加成功
      let uid=req.session.uid;
-     if(did==0){
+     if(req.query.did){
          let sql="UPDATE bocUser SET cardurl=? WHERE uid=?"
          //7.4.2 发送SQL语句
          pool.query(sql,[des,uid],(err,result)=>{
