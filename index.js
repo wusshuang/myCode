@@ -158,8 +158,6 @@ let upload=multer({dest:"upload/"});
      let i3=src.lastIndexOf(".");
      let suff=src.substring(i3);
 
-     console.log(req.file);
-
      let newFile=__dirname+"/public/upload/"+rt+math+suff;
     //  let newFile="upload/"+rt+math+suff;
     let i4=newFile.lastIndexOf("/");
@@ -184,12 +182,10 @@ let upload=multer({dest:"upload/"});
              res.send({code:1,msg:"上传成功！"});
          })
      }else{
-        console.log(55555)
         let sql="UPDATE deals SET dealurl=? WHERE did=?"
         //7.4.2 发送SQL语句
         pool.query(sql,[des,did],(err,result)=>{
             if(err) throw err;
-            console.log(des+''+123456)
             //7.4.3 如果执行成功返回上传成功消息
             //7.5 返回消息上传文件成功 
             res.send({code:1,msg:"上传成功！"});
@@ -423,7 +419,6 @@ server.post('/dealOver',(req,res)=>{
         id2=uid
     }
 
-    console.log(count+'- -'+count1)
     let sql=`UPDATE bocUser SET freeze=freeze-? WHERE uid=?`;
     pool.query(sql,[count,id2],(err,result)=>{
         if(err) throw err;
@@ -437,29 +432,23 @@ server.post('/dealOver',(req,res)=>{
                 let sql2="INSERT INTO property VALUES(null,?,'买入',?,now(),?)";
                     pool.query(sql2,[id1,count1,depo],(err,result)=>{
                         if(err) throw err;
-                        console.log(1111111)
                         let sql4='SELECT boss FROM bocUser WHERE uid=?';
                         pool.query(sql4,[id1],(err,result)=>{
                             if(err) throw err;
-                            console.log(result)
                             if(result.length>0){
                                 let phone=result[0].boss;                               
                                 let sql3=`UPDATE bocUser SET deposit=deposit+${count1*0.05},rincome=rincome+${count1*0.05} WHERE phone=?`
                                 pool.query(sql3,[phone],(err,result)=>{
                                     if(err) throw err;
-                                    console.log(222222)
                                     let sql6='SELECT uid,deposit FROM bocUser WHERE phone=?';
                                     pool.query(sql6,[phone],(err,result)=>{
                                         if(err) throw err;
-                                        console.log(result)
                                         if(result.affectedRows>0){
                                             let id=result[0].uid;
                                             let depo=result[0].deposit;
                                             let sql5="INSERT INTO property VALUES(null,?,'推荐收益',?,now(),?)";
-                                            console.log(777777777)
                                             pool.query(sql5,[id,count1*0.05,depo],(err,result)=>{
                                                 if(err) throw err;
-                                                console.lof(333333)
                                                 //二级下线交易奖励
                                                 // let sql7='SELECT boss FROM bocUser WHERE uid=?';
                                                 // pool.query(sql7,[id],(err,result)=>{
@@ -675,7 +664,6 @@ server.post('/GetTeamCount',(req,res)=>{
  server.get("/Toget",(req,res)=>{
      let phone=req.query.phone;
      let pno=10*req.query.pno;
-     console.log(666667)
      let sql=`SELECT uid,phone,uname,pay,logupwd,rank,cardurl,rtime,state FROM bocUser WHERE phone Like ? ORDER BY uid DESC LIMIT ${pno},10`;
      pool.query(sql,['%'+phone+'%'],(err,result)=>{
          if(err) throw err;
