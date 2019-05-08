@@ -422,6 +422,8 @@ server.post('/dealOver',(req,res)=>{
         id1=otheruid
         id2=uid
     }
+
+    console.log(count+'- -'+count1)
     let sql=`UPDATE bocUser SET freeze=freeze-? WHERE uid=?`;
     pool.query(sql,[count,id2],(err,result)=>{
         if(err) throw err;
@@ -432,7 +434,7 @@ server.post('/dealOver',(req,res)=>{
             pool.query(sql7,[id1],(err,result)=>{
                 if(err) throw err;
                 let depo=result[0].deposit;
-                let sql2="INSERT INTO property VALUES(null,?,'买入',+?,now(),?)";
+                let sql2="INSERT INTO property VALUES(null,?,'买入',?,now(),?)";
                     pool.query(sql2,[id1,count1,depo],(err,result)=>{
                         if(err) throw err;
                         console.log(1111111)
@@ -450,10 +452,11 @@ server.post('/dealOver',(req,res)=>{
                                     pool.query(sql6,[phone],(err,result)=>{
                                         if(err) throw err;
                                         console.log(result)
-                                        if(result.length>0){
+                                        if(result.affectedRows>0){
                                             let id=result[0].uid;
                                             let depo=result[0].deposit;
-                                            let sql5="INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)";
+                                            let sql5="INSERT INTO property VALUES(null,?,'推荐收益',?,now(),?)";
+                                            console.log(777777777)
                                             pool.query(sql5,[id,count1*0.05,depo],(err,result)=>{
                                                 if(err) throw err;
                                                 console.lof(333333)
