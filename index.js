@@ -411,6 +411,7 @@ server.post('/dealOver',(req,res)=>{
     let uid=req.body.uid;
     let otheruid=req.body.oid;
     let count=parseFloat(req.body.count);
+    let count1=Math.floor(count/1.15*100)/100;
     let todo=req.body.todo;
     let id1;
     let id2;
@@ -424,7 +425,7 @@ server.post('/dealOver',(req,res)=>{
     let sql=`UPDATE bocUser SET freeze=freeze-? WHERE uid=?`;
     pool.query(sql,[count,id2],(err,result)=>{
         if(err) throw err;
-        let sql1=`UPDATE bocUser SET deposit=deposit+${count/1.15} WHERE uid=?`;
+        let sql1=`UPDATE bocUser SET deposit=deposit+${count1} WHERE uid=?`;
         pool.query(sql1,[id1],(err,result)=>{
             if(err) throw err;
             let sql7='SELECT deposit FROM bocUser WHERE uid=?';
@@ -432,7 +433,7 @@ server.post('/dealOver',(req,res)=>{
                 if(err) throw err;
                 let depo=result[0].deposit;
                 let sql2="INSERT INTO property VALUES(null,?,'买入',+?,now(),?)";
-                    pool.query(sql2,[id1,count/1.15,depo],(err,result)=>{
+                    pool.query(sql2,[id1,count1,depo],(err,result)=>{
                         if(err) throw err;
                         console.log(1111111)
                         let sql4='SELECT boss FROM bocUser WHERE uid=?';
@@ -441,7 +442,7 @@ server.post('/dealOver',(req,res)=>{
                             console.log(result)
                             if(result.length>0){
                                 let phone=result[0].boss;                               
-                                let sql3=`UPDATE bocUser SET deposit=deposit+${count/1.15*0.05},rincome=rincome+${count/1.15*0.05} WHERE phone=?`
+                                let sql3=`UPDATE bocUser SET deposit=deposit+${count1*0.05},rincome=rincome+${count1*0.05} WHERE phone=?`
                                 pool.query(sql3,[phone],(err,result)=>{
                                     if(err) throw err;
                                     console.log(222222)
@@ -453,7 +454,7 @@ server.post('/dealOver',(req,res)=>{
                                             let id=result[0].uid;
                                             let depo=result[0].deposit;
                                             let sql5="INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)";
-                                            pool.query(sql5,[id,count/1.15*0.05,depo],(err,result)=>{
+                                            pool.query(sql5,[id,count1*0.05,depo],(err,result)=>{
                                                 if(err) throw err;
                                                 console.lof(333333)
                                                 //二级下线交易奖励
