@@ -156,7 +156,7 @@ let upload=multer({dest:"img/"});
      //移动 public/upload/23234.jpg
      fs.renameSync(req.file.path,newFile);
 
-     res.send(req.file)
+     res.send(des)
 
      //返回添加成功
     //  let uid=req.session.uid;
