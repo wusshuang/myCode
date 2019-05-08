@@ -538,24 +538,32 @@ server.get('/Upstate',(req,res)=>{
 })
 
 //功能二十二：用户领取矿机收益
-server.get('/Upyetget',(req,res)=>{
-    let get=Number(req.query.get);
-    let mid=req.query.mid;
+server.post('/Upyetget',(req,res)=>{
+    let get=Number(req.body.get);
+    let mid=req.body.mid;
     let uid=req.session.uid;
     let sql=`UPDATE milllist SET yetget=yetget+? WHERE mid=?`;
     pool.query(sql,[get,mid],(err,result)=>{
         if(err) throw err;
-        if(result.affectedRows>0){
+        if(result.length>0){
+            console.log(1111)
+            console.log(result)
             let sql='UPDATE bocUser SET deposit=deposit+? WHERE uid=?';
             pool.query(sql,[get,uid],(err,result)=>{
                 if(err) throw err;
+                console.log(2222)
+            console.log(result)
                 let sql6='SELECT deposit FROM bocUser WHERE uid=?';
                 pool.query(sql6,[uid],(err,result)=>{
                     if(err) throw err;
+                    console.log(3333)
+            console.log(result)
                     let depo=result[0].deposit;
                     let sql5="INSERT INTO property VALUES(null,?,'矿机收益',+?,now(),?)";
                     pool.query(sql5,[uid,get,depo],(err,result)=>{
                         if(err) throw err;
+                        console.log(44444)
+            console.log(result)
                         res.send({code:1,msg:"交易成功！"})
                     })
                 })
