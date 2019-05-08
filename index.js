@@ -149,9 +149,9 @@ let upload=multer({dest:"upload/"});
      let i3=src.lastIndexOf(".");
      let suff=src.substring(i3);
     //  let newFile=__dirname+"/public/upload/"+rt+math+suff;
-     let newFile=__dirname+"myupload/upload/"+rt+math+suff;
+     let newFile="myupload/upload/"+rt+math+suff;
     //  let i4=newFile.lastIndexOf("/");
-     let des=newFile.substring(46);
+     let des=newFile.substring(16);
      let did=req.query.did;
      //移动 public/upload/23234.jpg
      fs.renameSync(req.file.path,newFile);
