@@ -544,28 +544,18 @@ server.post('/Upyetget',(req,res)=>{
     let uid=req.session.uid;
     let sql='UPDATE millList SET yetget=yetget+? WHERE mid=?';
     pool.query(sql,[get,mid],(err,result)=>{
-        console.log(55555)
-        
-        console.log(result)
         if(err) throw err;
         if(result.affectedRows>0){
-            console.log(1111)
             let sql='UPDATE bocUser SET deposit=deposit+? WHERE uid=?';
             pool.query(sql,[get,uid],(err,result)=>{
                 if(err) throw err;
-                console.log(2222)
-            console.log(result)
                 let sql6='SELECT deposit FROM bocUser WHERE uid=?';
                 pool.query(sql6,[uid],(err,result)=>{
                     if(err) throw err;
-                    console.log(3333)
-            console.log(result)
                     let depo=result[0].deposit;
                     let sql5="INSERT INTO property VALUES(null,?,'矿机收益',+?,now(),?)";
                     pool.query(sql5,[uid,get,depo],(err,result)=>{
                         if(err) throw err;
-                        console.log(44444)
-            console.log(result)
                         res.send({code:1,msg:"交易成功！"})
                     })
                 })
