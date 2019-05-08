@@ -180,10 +180,12 @@ let upload=multer({dest:"upload/"});
              res.send({code:1,msg:"上传成功！"});
          })
      }else{
+        console.log(55555)
         let sql="UPDATE deals SET dealurl=? WHERE did=?"
         //7.4.2 发送SQL语句
         pool.query(sql,[des,did],(err,result)=>{
             if(err) throw err;
+            console.log(des+''+123456)
             //7.4.3 如果执行成功返回上传成功消息
             //7.5 返回消息上传文件成功 
             res.send({code:1,msg:"上传成功！"});
@@ -259,10 +261,12 @@ server.get('/Getdeal',(req,res)=>{
     if(!pno){
         pno=0
     }
+    console.log(4444444)
     let sql='SELECT did,number,price,count,totle,rtime,state FROM deals WHERE uid=? ORDER BY did DESC LIMIT ?,20';
     pool.query(sql,[pno,uid],(err,result)=>{
         if(err) throw err;
         res.send(result)
+        console.log(result)
     })
 })
 
@@ -428,22 +432,27 @@ server.post('/dealOver',(req,res)=>{
                 let sql2="INSERT INTO property VALUES(null,?,'买入',+?,now(),?)";
                     pool.query(sql2,[id1,count/1.15,depo],(err,result)=>{
                         if(err) throw err;
+                        console.log(1111111)
                         let sql4=`SELECT boss FROM bocuser WHERE uid=${id1}`;
                         pool.query(sql4,(err,result)=>{
                             if(err) throw err;
+                            console.log(result)
                             if(result.length>0){
                                 let phone=result[0].boss;                               
                                 let sql3=`UPDATE bocUser SET deposit=deposit+${count/1.15*0.05},rincome=rincome+${count/1.15*0.05} WHERE phone=?`
                                 pool.query(sql3,[phone],(err,result)=>{
                                     if(err) throw err;
+                                    console.log(222222)
                                     let sql6='SELECT deposit,uid FROM bocUser WHERE phone=?';
                                     pool.query(sql6,[phone],(err,result)=>{
+                                        console.log(result)
                                         if(err) throw err;
                                         let id=result[0].uid;
                                         let depo=result[0].deposit;
                                         let sql5="INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)";
                                         pool.query(sql5,[id,count/1.15*0.05,depo],(err,result)=>{
                                             if(err) throw err;
+                                            console.lof(333333)
                                             //二级下线交易奖励
                                             // let sql7='SELECT boss FROM bocUser WHERE uid=?';
                                             // pool.query(sql7,[id],(err,result)=>{
