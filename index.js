@@ -138,7 +138,7 @@ server.post('/Dupwd',(req,res)=>{
 // const multer=require("multer");
 // const fs=require("fs");
 //创建multer模块对象 
-let upload=multer({dest:"https://sae.sinacloud.com/storeandcdn/storage/files/appname/bitoc/bucket/myupload/upload/"});
+let upload=multer({dest:"upload/"});
  //接收post请求 /uploadFile
  server.post("/uploadFile",upload.single("mypic"),(req,res)=>{
      //创建新文件名
@@ -148,10 +148,15 @@ let upload=multer({dest:"https://sae.sinacloud.com/storeandcdn/storage/files/app
      let src=req.file.originalname;
      let i3=src.lastIndexOf(".");
      let suff=src.substring(i3);
-    //  let newFile=__dirname+"/public/upload/"+rt+math+suff;
-     let newFile="https://sae.sinacloud.com/storeandcdn/storage/files/appname/bitoc/bucket/myupload/upload/"+rt+math+suff;
-    //  let i4=newFile.lastIndexOf("/");
-     let des=newFile.substring(7);
+
+     console.log(req.file);
+
+     let newFile=__dirname+"/public/upload/"+rt+math+suff;
+    //  let newFile="upload/"+rt+math+suff;
+    let i4=newFile.lastIndexOf("/");
+     
+    let des=newFile.substring(i4);
+    des=newFile.substring(1);
      let did=req.query.did;
      //移动 public/upload/23234.jpg
      fs.renameSync(req.file.path,newFile);
