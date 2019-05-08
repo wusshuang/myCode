@@ -546,9 +546,9 @@ server.post('/Upyetget',(req,res)=>{
     pool.query(sql,[get,mid],(err,result)=>{
         console.log(55555)
         if(err) throw err;
+        console.log(result)
         if(result.length>0){
             console.log(1111)
-            console.log(result)
             let sql='UPDATE bocUser SET deposit=deposit+? WHERE uid=?';
             pool.query(sql,[get,uid],(err,result)=>{
                 if(err) throw err;
