@@ -542,7 +542,7 @@ server.post('/Upyetget',(req,res)=>{
     let get=Number(req.body.get).toFixed(4);
     let mid=req.body.mid;
     let uid=req.session.uid;
-    let sql=`UPDATE milllist SET yetget=yetget+? WHERE mid=?`;
+    let sql='UPDATE millList SET yetget=yetget+? WHERE mid=?';
     pool.query(sql,[get,mid],(err,result)=>{
         console.log(55555)
         console.log(result)
