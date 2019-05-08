@@ -539,15 +539,15 @@ server.get('/Upstate',(req,res)=>{
 
 //功能二十二：用户领取矿机收益
 server.post('/Upyetget',(req,res)=>{
-    let get=Number(req.body.get);
+    let get=Number(req.body.get).toFixed(4);
     let mid=req.body.mid;
     let uid=req.session.uid;
     let sql=`UPDATE milllist SET yetget=yetget+? WHERE mid=?`;
     pool.query(sql,[get,mid],(err,result)=>{
         console.log(55555)
-        if(err) throw err;
         console.log(result)
-        if(result.length>0){
+        if(err) throw err;
+        if(result.affectedRows>0){
             console.log(1111)
             let sql='UPDATE bocUser SET deposit=deposit+? WHERE uid=?';
             pool.query(sql,[get,uid],(err,result)=>{
