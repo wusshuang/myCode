@@ -647,10 +647,10 @@ server.post('/GetTeamCount',(req,res)=>{
      })
  })
 
- //2 电话号码模糊查询或uid
+ //2 电话号码模糊查询
  server.get("/Toget",(req,res)=>{
-     let pno=10*req.query.pno;
      let phone=req.query.phone;
+     let pno=10*req.query.pno;
 
      let sql=`SELECT uid,phone,uname,pay,logupwd,rank,cardurl,rtime,state FROM bocUser WHERE phone Like ? ORDER BY uid DESC LIMIT ${pno},10`;
      pool.query(sql,['%'+phone+'%'],(err,result)=>{
