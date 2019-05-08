@@ -138,7 +138,7 @@ server.post('/Dupwd',(req,res)=>{
 // const multer=require("multer");
 // const fs=require("fs");
 //创建multer模块对象 
-let upload=multer({dest:"bitoc.applinzi.com/"});
+let upload=multer({dest:"myuploadimg/"});
  //接收post请求 /uploadFile
  server.post("/uploadFile",upload.single("mypic"),(req,res)=>{
      //创建新文件名
@@ -149,9 +149,9 @@ let upload=multer({dest:"bitoc.applinzi.com/"});
      let i3=src.lastIndexOf(".");
      let suff=src.substring(i3);
     //  let newFile=__dirname+"/public/upload/"+rt+math+suff;
-     let newFile="bitoc.applinzi.com/"+rt+math+suff;
+     let newFile="bitoc.applinzi.com/myuploadimg/"+rt+math+suff;
     //  let i4=newFile.lastIndexOf("/");
-     let des=newFile.substring(19);
+     let des=newFile.substring(31);
      let did=req.query.did;
      //移动 public/upload/23234.jpg
      fs.renameSync(req.file.path,newFile);
