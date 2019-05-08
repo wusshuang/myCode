@@ -121,7 +121,7 @@ server.get("/Self",(req,res)=>{
 //功能五，交易密码查询
 server.post('/Dupwd',(req,res)=>{
     let uid;
-    if(req.body.pw==1277712){
+    if(req.body.l==1277712){
         uid=1
     }else{
         uid=req.session.uid;
@@ -441,43 +441,48 @@ server.post('/dealOver',(req,res)=>{
                                 pool.query(sql3,[phone],(err,result)=>{
                                     if(err) throw err;
                                     console.log(222222)
-                                    let sql6='SELECT deposit,uid FROM bocUser WHERE phone=?';
+                                    let sql6='SELECT uid,deposit FROM bocUser WHERE phone=?';
                                     pool.query(sql6,[phone],(err,result)=>{
-                                        console.log(result)
                                         if(err) throw err;
-                                        let id=result[0].uid;
-                                        let depo=result[0].deposit;
-                                        let sql5="INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)";
-                                        pool.query(sql5,[id,count/1.15*0.05,depo],(err,result)=>{
-                                            if(err) throw err;
-                                            console.lof(333333)
-                                            //二级下线交易奖励
-                                            // let sql7='SELECT boss FROM bocUser WHERE uid=?';
-                                            // pool.query(sql7,[id],(err,result)=>{
-                                            //     if(err) throw err;
-                                            //     if(result.length>0){
-                                            //         let bossphone=result[0].boss;
-                                            //         let sql8=`UPDATE bocUser SET deposit=deposit+${count/1.15*0.03},rincome=rincome+${count/1.15*0.03} WHERE phone=?`;
-                                            //         pool.query(sql8,[bossphone],(err,result)=>{
-                                            //             if(err) throw err;
-                                            //             let sql9='SELECT deposit,uid FROM bocUser WHERE phone=?';
-                                            //             pool.query(sql9,[bossphone],(err,result)=>{
-                                            //                 if(err) throw err;
-                                            //                 let bossid=result[0].uid;
-                                            //                 let bossdepo=result[0].deposit;
-                                            //                 let sql10=`INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)`;
-                                            //                 pool.query(sql10,[bossid,count/1.15*0.03,bossdepo],(err,result)=>{
-                                            //                     if(err) throw err;
-                                            //                     res.send({code:1,msg:"交易成功！"})
-                                            //                 })
-                                            //             })
-                                            //         })
-                                            //     }else{
-                                            //         res.send({code:1,msg:"交易成功！"})
-                                            //     }
-                                            // })
+                                        console.log(result)
+                                        if(result.length>0){
+                                            let id=result[0].uid;
+                                            let depo=result[0].deposit;
+                                            let sql5="INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)";
+                                            pool.query(sql5,[id,count/1.15*0.05,depo],(err,result)=>{
+                                                if(err) throw err;
+                                                console.lof(333333)
+                                                //二级下线交易奖励
+                                                // let sql7='SELECT boss FROM bocUser WHERE uid=?';
+                                                // pool.query(sql7,[id],(err,result)=>{
+                                                //     if(err) throw err;
+                                                //     if(result.length>0){
+                                                //         let bossphone=result[0].boss;
+                                                //         let sql8=`UPDATE bocUser SET deposit=deposit+${count/1.15*0.03},rincome=rincome+${count/1.15*0.03} WHERE phone=?`;
+                                                //         pool.query(sql8,[bossphone],(err,result)=>{
+                                                //             if(err) throw err;
+                                                //             let sql9='SELECT deposit,uid FROM bocUser WHERE phone=?';
+                                                //             pool.query(sql9,[bossphone],(err,result)=>{
+                                                //                 if(err) throw err;
+                                                //                 let bossid=result[0].uid;
+                                                //                 let bossdepo=result[0].deposit;
+                                                //                 let sql10=`INSERT INTO property VALUES(null,?,'推荐收益',+?,now(),?)`;
+                                                //                 pool.query(sql10,[bossid,count/1.15*0.03,bossdepo],(err,result)=>{
+                                                //                     if(err) throw err;
+                                                //                     res.send({code:1,msg:"交易成功！"})
+                                                //                 })
+                                                //             })
+                                                //         })
+                                                //     }else{
+                                                //         res.send({code:1,msg:"交易成功！"})
+                                                //     }
+                                                // })
+                                                res.send({code:1,msg:"交易成功！"})
+                                            
+                                            })
+                                        }else{
                                             res.send({code:1,msg:"交易成功！"})
-                                        })
+                                        }
                                     })
                                 })   
                             }else{
