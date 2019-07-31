@@ -614,8 +614,8 @@ server.get('/UpdateRank',(req,res)=>{
 })
 
 //功能二十五：获取每台矿机详情
-server.get('/GetMillInfo',(req,res)=>{
-    let mid=req.query.mid;
+server.post('/GetMillInfo',(req,res)=>{
+    let mid=req.body.mid;
     let sql=`SELECT mid,type,state,mtime,yetget FROM millList WHERE mid=?`;
     pool.query(sql,[mid],(err,result)=>{
         if(err) throw err;
